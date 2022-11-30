@@ -13,6 +13,14 @@ const deliveries = [
   });
 
   routes.get("/:deliveryid", (req, res) =>{
+    const data = deliveries.find((delivery) =>{
+      return delivery.id == req.params.deliveryid;
+    });
+    if (data) {
+      res.json(data);
+    } else {
+      res.status(404).json({ message: "delivery not found"})
+    }
   });
   
   routes.post("/", (req, res) =>{

@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const { Router, json } = require("express");
 const routes = Router();
 
 const categories = [
@@ -15,30 +15,42 @@ routes.get("/", (req, res) => {
   });
 
   routes.get("/:categoryid", (req, res) =>{
+    const data = categories.find((category) =>{
+      return category.id == req.params.categoryid;
+    })
+    if(data) {
+      res.json(data);
+    }else {
+      res.status(404).json({ message: "Category not found"});
+    }
 });
 
 routes.post("/", (req, res) =>{
-  res.status(201).json({ message: "Categoría creada" });
+  const data = req.body;
+
+  const { articleName, articlesCategory} = data;
+  const newCategory = { articleName, articlesCategory, id:44};
+
+  if (!data) {
+    res.status(404),json ({ message: "Category data is required" })
+  }else {
+    res.status(201).json({ 
+      ok: true,
+      message: "Categoría creada",
+      payload: newCategory,
+     });
+  }
 });
+
 routes.put("/", (req,res) =>{
-  req.json({ message: `Categoría con el id ${req.params.id} modificada`});
+  req.status(405).json({ message: "Method not allowed"})
 });
+routes.put("/:id", (req, res) =>{
+  req.json({ message: `Categoría con el id ${req.params.id} modificada`});
+})
 
 routes.delete("/:id", (req, res) =>{
   res.json({ message: `Categoría con el id ${req.params.id} eliminada`})
-})
-
-
-  // routes.get("/categories/:categoryid", (req, res) => {
-  //   const data = categories.find((category) => {
-  //     return category.id == req.params.categoryid;
-  //   });
-  
-  //   if (data) {
-  //     res.json(data);
-  //   } else {
-  //     res.status(404).json({ message: "Category not found" });
-  //   }
-  // });  
+});
 
   module.exports = routes;
