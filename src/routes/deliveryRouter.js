@@ -41,7 +41,7 @@ const deliveries = [
   });
 
   routes.put("/", (req,res) =>{
-    req.status(405).json({ message: "Method not allowed"})
+    res.status(405).json({ message: "Method not allowed"})
   });
   routes.put("/:id", (req, res) =>{
     req.json({ message: `Pedido con el id ${req.params.id} modificado`});

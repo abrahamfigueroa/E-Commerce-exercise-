@@ -17,7 +17,7 @@ routes.get("/", (req, res) => {
   routes.get("/:categoryid", (req, res) =>{
     const data = categories.find((category) =>{
       return category.id == req.params.categoryid;
-    })
+    });
     if(data) {
       res.json(data);
     }else {
@@ -32,7 +32,7 @@ routes.post("/", (req, res) =>{
   const newCategory = { articleName, articlesCategory, id:44};
 
   if (!data) {
-    res.status(404),json ({ message: "Category data is required" })
+    res.status(404).json ({ message: "Category data is required" })
   }else {
     res.status(201).json({ 
       ok: true,
@@ -43,7 +43,7 @@ routes.post("/", (req, res) =>{
 });
 
 routes.put("/", (req,res) =>{
-  req.status(405).json({ message: "Method not allowed"})
+  res.status(405).json({ message: "Method not allowed"})
 });
 routes.put("/:id", (req, res) =>{
   req.json({ message: `Categoría con el id ${req.params.id} modificada`});
