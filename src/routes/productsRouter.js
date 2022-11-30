@@ -15,14 +15,38 @@ routes.get("/", (req, res) => {
   });
   
   routes.get("/:productid", (req, res) =>{
+    const data = products.find((product) =>{
+      return product.id == req.params.productid;
+    });
+    if (data) {
+      res.json(data);
+    } else {
+      res.status(404).json({ message: "Product not found"})
+    }
   });
   
   routes.post("/", (req, res) =>{
-    res.status(201).json({ message: "Producto creado" });
+    const data = req.body
+    const { articleName, price } = data;
+    const newProduct = { articleName, price, id:64};
+
+    if(!data) {
+      res.status(404).json({ message: "Product data is required"})
+    }else{
+      res.status(201).json ({
+        ok: true,
+        message: "Producto creado",
+        payload: newProduct,
+       });
+    }
   });
+
   routes.put("/", (req,res) =>{
-    req.json({ message: `Producto con el id ${req.params.id} modificado`});
+    res.status(405).json({ message: "Method not allowed"})
   });
+routes.put("/:id", (req, res) => {
+  req.json({ message: `Producto con el id ${req.params.id} modificado`});
+})
   
   routes.delete("/:id", (req, res) =>{
     res.json({ message: `Producto con el id ${req.params.id} eliminado.`})

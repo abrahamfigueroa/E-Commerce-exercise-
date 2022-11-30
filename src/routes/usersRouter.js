@@ -12,29 +12,43 @@ routes.get("/", (req, res) => {
 });
 
 routes.get("/:userid", (req, res) =>{
+  const data = users.find((user) =>{
+    return user.id == req.params.userid;
+  });
+  if (data) {
+    res.json(data);
+  } else {
+    res.status(404).json({ message: "User not found" })
+  }
 });
 
 routes.post("/", (req, res) =>{
-  res.status(201).json({ message: "Usuario creado" });
+  const data = req.body;
+
+  const { username, email} = data;
+  const newUser = { username, email, id:54 };
+
+  if (!data) {
+    res.status(404).json ({ message: "User data is required" })
+  }else {
+    res.status(201).json({ 
+      ok: true,
+      message: "Usuario creado",
+      payload: newUser,
+     });
+    }
 });
+  
 routes.put("/", (req,res) =>{
-  req.json({ message: `Usuario con el id ${req.params.id} modificado`});
+  res.status(405).json({ message: "Method not alloed"})
 });
+routes.put("/:id", (req, res) =>{
+  req.json({ message: `Usuario con el id ${req.params.id} modificado`});
+})
 
 routes.delete("/:id", (req, res) =>{
   res.json({ message: `Usuario con el id ${req.params.id} eliminado.`})
 });
 
-// routes.get("/users/:userid", (req, res) => {
-//   const data = users.find((user) => {
-//     return user.id == req.params.userid;
-//   });
-
-//   if (data) {
-//     res.json(data);
-//   } else {
-//     res.status(404).json({ message: "User not found" });
-//   }
-// });
 
 module.exports = routes;
