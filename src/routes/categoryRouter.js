@@ -10,20 +10,35 @@ const categories = [
     {id: 6, articleName: "Boxer", articlesCategory:"Ropa para hombre"},
 ];
 
-routes.get("/categories", (req, res) => {
+routes.get("/", (req, res) => {
     res.json(categories);
   });
 
-  routes.get("/categories/:categoryid", (req, res) => {
-    const data = categories.find((category) => {
-      return category.id == req.params.categoryid;
-    });
+  routes.get("/:categoryid", (req, res) =>{
+});
+
+routes.post("/", (req, res) =>{
+  res.status(201).json({ message: "Categoría creada" });
+});
+routes.put("/", (req,res) =>{
+  req.json({ message: `Categoría con el id ${req.params.id} modificada`});
+});
+
+routes.delete("/:id", (req, res) =>{
+  res.json({ message: `Categoría con el id ${req.params.id} eliminada`})
+})
+
+
+  // routes.get("/categories/:categoryid", (req, res) => {
+  //   const data = categories.find((category) => {
+  //     return category.id == req.params.categoryid;
+  //   });
   
-    if (data) {
-      res.json(data);
-    } else {
-      res.status(404).json({ message: "Category not found" });
-    }
-  });  
+  //   if (data) {
+  //     res.json(data);
+  //   } else {
+  //     res.status(404).json({ message: "Category not found" });
+  //   }
+  // });  
 
   module.exports = routes;

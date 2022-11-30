@@ -8,20 +8,36 @@ const deliveries = [
     { id: 4, deliveryStatus: "Devolución", firstName: "John", lastName: "Doe" },
   ];
 
-  routes.get("/deliveries", (req, res) => {
+  routes.get("/", (req, res) => {
     res.json(deliveries);
   });
 
-  routes.get("/deliveries/:deliveryid", (req, res) => {
-    const data = deliveries.find((delivery) => {
-      return delivery.id == req.params.deliveryid;
-    });
+  routes.get("/:deliveryid", (req, res) =>{
+  });
   
-    if (data) {
-      res.json(data);
-    } else {
-      res.status(404).json({ message: "Delivery not found" });
-    }
-  });  
+  routes.post("/", (req, res) =>{
+    res.status(201).json({ message: "Pedido creado" });
+  });
+  routes.put("/", (req,res) =>{
+    req.json({ message: `Pedido con el id ${req.params.id} modificado`});
+  });
+  
+  routes.delete("/:id", (req, res) =>{
+    res.json({ message: `Pedido con el id ${req.params.id} eliminado.`})
+  });
+
+
+
+  // routes.get("/deliveries/:deliveryid", (req, res) => {
+  //   const data = deliveries.find((delivery) => {
+  //     return delivery.id == req.params.deliveryid;
+  //   });
+  
+  //   if (data) {
+  //     res.json(data);
+  //   } else {
+  //     res.status(404).json({ message: "Delivery not found" });
+  //   }
+  // });  
 
   module.exports = routes;
